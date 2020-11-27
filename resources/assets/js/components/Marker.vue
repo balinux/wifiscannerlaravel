@@ -95,7 +95,7 @@ export default {
   },
   async created(){
     console.log('created');
-    const response = await fetch('http://wifiscanner.test/api/wifi');
+    const response = await fetch('http://wifiscanner.bajabali.co.id/wifiscanner/public/api/wifi');
     const json = await response.json();
     this.arrayLocationApi = json;
   },
