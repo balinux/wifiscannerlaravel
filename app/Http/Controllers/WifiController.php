@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Wifi;
+use Symfony\Component\Finder\Finder;
 
 class WifiController extends Controller
 {
@@ -47,7 +48,8 @@ class WifiController extends Controller
      */
     public function show($id)
     {
-        //
+        $singleDataWifi = Wifi::find($id);
+        return $singleDataWifi;
     }
 
     /**

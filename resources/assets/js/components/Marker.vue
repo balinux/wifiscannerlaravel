@@ -1,15 +1,10 @@
 <template>
-
   <div style="height: 500px; width: 100%">
     <div style="height: 200px overflow: auto;">
       <p>First marker is placed at {{ withPopup.lat }}, {{ withPopup.lng }}</p>
       <p>Center is at {{ currentCenter }} and the zoom is: {{ currentZoom }}</p>
-      <button @click="showLongText">
-        Toggle long popup
-      </button>
-      <button @click="showMap = !showMap">
-        Toggle map
-      </button>
+      <button @click="showLongText">Toggle long popup</button>
+      <button @click="showMap = !showMap">Toggle map</button>
     </div>
     <l-map
       v-if="showMap"
@@ -20,15 +15,20 @@
       @update:center="centerUpdate"
       @update:zoom="zoomUpdate"
     >
-      <l-tile-layer
-        :url="url"
-        :attribution="attribution"
-      />
+      <l-tile-layer :url="url" :attribution="attribution" />
 
-      <l-marker v-for="location in arrayPosition" :key="location.index" :lat-lng="location"></l-marker>
+      <l-marker
+        v-for="location in arrayPosition"
+        :key="location.index"
+        :lat-lng="location"
+      ></l-marker>
 
-      <l-marker v-for="locationapi in arrayLocationApi" :key="locationapi.index" :lat-lng="[locationapi.lat,locationapi.long]">
-        <l-popup>{{locationapi.ssid}}</l-popup>
+      <l-marker
+        v-for="locationapi in arrayLocationApi"
+        :key="locationapi.index"
+        :lat-lng="[locationapi.lat, locationapi.long]"
+      >
+        <l-popup>{{ locationapi.ssid }}</l-popup>
       </l-marker>
 
       <l-marker :lat-lng="[47.51322, -1.219482]"></l-marker>
@@ -71,31 +71,36 @@ export default {
     LTileLayer,
     LMarker,
     LPopup,
-    LTooltip
+    LTooltip,
   },
   data() {
     return {
-      zoom: 13,
+      zoom: 4,
       center: latLng(47.41322, -1.219482),
-      url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+      url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
       attribution:
         '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
       withPopup: latLng(47.41322, -1.219482),
       withTooltip: latLng(47.41422, -1.250482),
-      arrayPosition:[[47.42322, -1.219482],[47.42422, -1.250482]],
-      arrayLocationApi:[],
+      arrayPosition: [
+        [47.42322, -1.219482],
+        [47.42422, -1.250482],
+      ],
+      arrayLocationApi: [],
       currentZoom: 11.5,
       currentCenter: latLng(47.41322, -1.219482),
       showParagraph: false,
       mapOptions: {
-        zoomSnap: 0.5
+        zoomSnap: 0.5,
       },
-      showMap: true
+      showMap: true,
     };
   },
-  async created(){
-    console.log('created');
-    const response = await fetch('http://wifiscanner.bajabali.co.id/api/wifi');
+  async created() {
+    console.log("created");
+    // const baseUrl = "http://wifiscanner.bajabali.co.id"
+    const baseUrl = "http://wifiscanner.test/";
+    const response = await fetch(`${baseUrl}/api/wifi`);
     const json = await response.json();
     this.arrayLocationApi = json;
   },
@@ -111,7 +116,7 @@ export default {
     },
     innerClick() {
       alert("Click!");
-    }
-  }
+    },
+  },
 };
 </script>
